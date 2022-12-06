@@ -5,7 +5,7 @@ import java.util.ArrayList;
 * This file creates the Tree Structure for the Guesses and Questions
 *
 * @author  AJ Norell
-* @author 
+* @author
 * @author
 * @author
 * CS1122 Fall 2022
@@ -17,60 +17,55 @@ public class LinkedBinaryTreeNode<E> implements BinaryTreeNode<E>{
     private E data = null;
     private BinaryTreeNode<E> left = null;
     private BinaryTreeNode<E> right = null;
-    private BinaryTreeNode<E> parent = null;
+    BinaryTreeNode<E> temp = null;
 
 
     public LinkedBinaryTreeNode(E data) {
         this.data = data;
-        
+
     }
 
     @Override
     public E getData() {
-        
         return data;
     }
 
     @Override
     public void setData(E data) {
         this.data = data;
-        
+
     }
 
     @Override
     public BinaryTreeNode<E> getRoot() {
-        if(getParent() != null){parent.getParent();}
-        return node;
+        return null;
     }
 
     @Override
     public BinaryTreeNode<E> getParent() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public BinaryTreeNode<E> getLeft() {
-        // TODO Auto-generated method stub
-        return null;
+        return left;
     }
 
     @Override
     public void setLeft(BinaryTreeNode<E> child) {
-        // TODO Auto-generated method stub
-        
+        left = child;
+
     }
 
     @Override
     public BinaryTreeNode<E> getRight() {
-        // TODO Auto-generated method stub
-        return null;
+        return right;
     }
 
     @Override
     public void setRight(BinaryTreeNode<E> child) {
-        // TODO Auto-generated method stub
-        
+        right = child;
+
     }
 
     @Override
@@ -87,14 +82,14 @@ public class LinkedBinaryTreeNode<E> implements BinaryTreeNode<E>{
 
     @Override
     public boolean hasLeftChild() {
-        // TODO Auto-generated method stub
-        return false;
+        if(left == null){return false;}
+        return true;
     }
 
     @Override
     public boolean hasRightChild() {
-        // TODO Auto-generated method stub
-        return false;
+        if(right == null){return false;}
+        return true;
     }
 
     @Override
@@ -118,7 +113,7 @@ public class LinkedBinaryTreeNode<E> implements BinaryTreeNode<E>{
     @Override
     public void removeFromParent() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -136,26 +131,25 @@ public class LinkedBinaryTreeNode<E> implements BinaryTreeNode<E>{
     @Override
     public void traversePreorder(BinaryTreeNode.Visitor visitor) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void traversePostorder(BinaryTreeNode.Visitor visitor) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void traverseInorder(BinaryTreeNode.Visitor visitor) {
         // TODO Auto-generated method stub
-        
-    }    
+
+    }
 }
 
-class Question extends LinkedBinaryTreeNode{
-
+class Question extends LinkedBinaryTreeNode<>{
 }
 
-class Guess extends LinkedBinaryTreeNode{
-    
+class Guess extends LinkedBinaryTreeNode<>{
+
 }
