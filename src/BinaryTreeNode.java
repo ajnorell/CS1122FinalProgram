@@ -28,6 +28,11 @@ import java.util.ArrayList;
     */
    public BinaryTreeNode<E> getParent();
 
+    /**
+    * Sets the parent node of the current node.
+    */
+    public void setParent(BinaryTreeNode<E> parent);
+
    /**
      * Returns the left child of this node, or null if it does
      * not have one.

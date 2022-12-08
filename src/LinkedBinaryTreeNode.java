@@ -2,23 +2,23 @@ import java.beans.BeanInfo;
 import java.util.ArrayList;
 
 /**
-* This file creates the Tree Structure for the Guesses and Questions
-*
-* @author  AJ Norell
-* @author
-* @author
-* @author
-* CS1122 Fall 2022
-* @since   28.11.2022
-*/
+ * This file creates the Tree Structure for the Guesses and Questions
+ *
+ * @author AJ Norell
+ * @author
+ * @author
+ * @author
+ *         CS1122 Fall 2022
+ * @since 28.11.2022
+ */
 
-public class LinkedBinaryTreeNode<E> implements BinaryTreeNode<E>{
+public class LinkedBinaryTreeNode<E> implements BinaryTreeNode<E> {
 
     private E data = null;
     private BinaryTreeNode<E> left = null;
     private BinaryTreeNode<E> right = null;
+    private BinaryTreeNode<E> parent = null;
     BinaryTreeNode<E> temp = null;
-
 
     public LinkedBinaryTreeNode(E data) {
         this.data = data;
@@ -38,12 +38,21 @@ public class LinkedBinaryTreeNode<E> implements BinaryTreeNode<E>{
 
     @Override
     public BinaryTreeNode<E> getRoot() {
-        return null;
+        temp = this;
+        while (temp.getParent() != null) {
+            temp = this.getParent();
+        }
+        return temp;
     }
 
     @Override
     public BinaryTreeNode<E> getParent() {
-        return null;
+        return parent;
+    }
+
+    @Override
+    public void setParent(BinaryTreeNode<E> parent) {
+        this.parent = parent;
     }
 
     @Override
@@ -70,50 +79,62 @@ public class LinkedBinaryTreeNode<E> implements BinaryTreeNode<E>{
 
     @Override
     public boolean isParent() {
-        // TODO Auto-generated method stub
+        if (hasRightChild() || hasLeftChild()) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean isLeaf() {
-        // TODO Auto-generated method stub
-        return false;
+        if (this.hasRightChild() || this.hasLeftChild()) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public boolean hasLeftChild() {
-        if(left == null){return false;}
+        if (left == null) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public boolean hasRightChild() {
-        if(right == null){return false;}
+        if (right == null) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public int getDepth() {
-        // TODO Auto-generated method stub
-        return 0;
+        int count = 0;
+        temp = this;
+        while(temp.getParent() != null){
+            count++;
+            temp = temp.getParent();
+        }
+        return count;
     }
 
     @Override
     public int getHeight() {
-        // TODO Auto-generated method stub
-        return 0;
+        int leftHeight = getLeft().getHeight();
+        int rightHeight = getRight().getHeight();
+        return Math.max(leftHeight, rightHeight) + 1;
     }
 
     @Override
     public int size() {
-        // TODO Auto-generated method stub
-        return 0;
+        return (getLeft().size() + 1 + getRight().size());
     }
 
     @Override
     public void removeFromParent() {
-        // TODO Auto-generated method stub
-
+        if(this.getRoot() == this){return;}
     }
 
     @Override
@@ -142,14 +163,34 @@ public class LinkedBinaryTreeNode<E> implements BinaryTreeNode<E>{
 
     @Override
     public void traverseInorder(BinaryTreeNode.Visitor visitor) {
-        // TODO Auto-generated method stub
+        //TODO Auto-generated method stub
+    }
 
+    public String toString(){
+        return "";
     }
 }
 
-class Question extends LinkedBinaryTreeNode<>{
+class Question<E> extends LinkedBinaryTreeNode<E> {
+    public Question(E data) {
+        super(data);
+        // TODO Auto-getnerated construtor stub
+    }
+
+    public String toString(){
+        return "";
+    }
 }
 
-class Guess extends LinkedBinaryTreeNode<>{
+class Guess<E> extends LinkedBinaryTreeNode<E> {
 
+    public Guess(E data) {
+        super(data);
+        setLeft(null);
+        setRight(null);
+    }
+
+    public String toString(){
+        return "";
+    }
 }
