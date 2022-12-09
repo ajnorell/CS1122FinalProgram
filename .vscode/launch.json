@@ -9,7 +9,7 @@
             "name": "Run GuessingGame",
             "request": "launch",
             "mainClass": "${file}",
-            "args": "naenae.data"
+            "args": "tree64.data"
         }
     ]
 }

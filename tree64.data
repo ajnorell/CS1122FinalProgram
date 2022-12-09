@@ -1,0 +1,66 @@
+Q:Are you thinking of a person?
+Q:Is it an animal
+Q:Is it a plant
+G:A Ferrari
+Q:Is it a tree
+Q:Is it edible
+G:Cork
+Q:Is it a cereal
+Q:Is it a starchy root
+Q:Is it a legume
+Q:Is it a vegetable Oil
+Q:Is it a fruit
+G:Peppers
+G:Strawberries
+G:Olive Oil
+Q:Is it in a pod
+G:Beans
+G:Peas
+G:Potatoes
+G:Wheat
+Q:Is it a mammal
+Q:Is it a reptile
+Q:Is it a fish
+Q:Is is a amphibian
+Q:Does it have at least 3 pairs of legs
+Q:Is is worm like
+G:Tapeworm
+G:Earthworm
+Q:Does it have more than 3 pairs of legs
+G:Ant
+G:Scorpion
+Q:Does it have a tail
+G:Frog
+G:Salamander
+Q:Is it toxic
+G:Salmon
+G:Lionfish
+Q:Is it venomous
+G:Turtle
+G:Snake
+Q:Does it live in water
+G:Bear
+G:Dolphin
+Q:Is the person alive?
+Q:Was the person a woman?
+Q:Was he an actor?
+Q:Was he a musician?
+Q:Is your person a former US president?
+G:Albert Einstein
+G:George Washington
+Q:Was he a jazz player?
+G:Jerry Garcia
+G:Dizzy Gillespie
+G:Charlie Chaplin
+G:Grace Hopper
+Q:Is the person a woman?
+Q:Did they star in the Matrix
+G:Matthew Broderick
+G:Keanu Reeves
+Q:Is she an actress?
+Q:Is she a politician?
+Q:Is she a scientist?
+G:Maya Angelou
+G:Dedre Gentner
+G:Angela Merkel
+G:Judi Dench

@@ -1,5 +1,7 @@
 Q:Are you thinking of a person?
+Q:Is it an animal
 G:A Ferrari
+G:Dolphin
 Q:Is the person alive?
 Q:Was the person a woman?
 Q:Was he an actor?
@@ -13,7 +15,9 @@ G:Dizzy Gillespie
 G:Charlie Chaplin
 G:Grace Hopper
 Q:Is the person a woman?
+Q:Did they star in the Matrix
 G:Matthew Broderick
+G:Keanu Reeves
 Q:Is she an actress?
 Q:Is she a politician?
 Q:Is she a scientist?
