@@ -21,7 +21,6 @@ import java.util.List;
 public class GuessingGame implements Game{
     LinkedBinaryTreeNode<String> root;
     private static Scanner sc = new Scanner(System.in);
-    private static String filepath;
 
     @Override
     public BinaryTreeNode<String> loadTree(String filename){
@@ -126,15 +125,14 @@ public class GuessingGame implements Game{
             }
 
         }
-        this.saveTree(filepath);
+        this.saveTree("naenae.data");
     }
 
     public static void main(String[] args) {
     if(args.length != 1) throw new IllegalArgumentException("Exactly one command line argument needed!");
     if(!args[0].contains(".data"))throw new IllegalArgumentException("filename must be of type 'data'");
     GuessingGame game = new GuessingGame();
-    filepath = args[0];
-    game.loadTree(filepath);
+    game.loadTree(args[0]);
     game.play();
     }
     
