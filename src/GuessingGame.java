@@ -1,4 +1,12 @@
-import java.util.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Scanner;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
 * This is the where the Logic for the Guessing Takes place
 *
@@ -11,84 +19,121 @@ import java.util.*;
 */
 
 public class GuessingGame implements Game{
+    LinkedBinaryTreeNode<String> root;
+    private static Scanner sc = new Scanner(System.in);
 
     @Override
-    public BinaryTreeNode<String> loadTree(String filename) {
-        // TODO Auto-generated method stub
+    public BinaryTreeNode<String> loadTree(String filename){
+        try{
+            List<String> file_data = Files.readAllLines(Path.of(filename));
+            LinkedList<LinkedBinaryTreeNode<String>> nodes = new LinkedList<LinkedBinaryTreeNode<String>>();
+             for(String data : file_data) nodes.add(data.startsWith("Q") ? new Question(data.substring(2)) : new Guess(data.substring(2)));
+            this.root= nodes.get(0);
+             load_helper(nodes);
+            return this.root;
+        }catch(IOException e){
+            System.out.println("Invalid Filename! " + e.getLocalizedMessage());
+        }
         return null;
     }
 
+    private static LinkedBinaryTreeNode<String> load_helper(LinkedList<LinkedBinaryTreeNode<String>> nodes){
+        LinkedBinaryTreeNode<String> n = nodes.pop();
+        if(n instanceof Question){
+            BinaryTreeNode<String> l = load_helper(nodes);
+            n.setLeft(l);
+            l.setParent(n);
+            BinaryTreeNode<String> r = load_helper(nodes);
+            n.setRight(r);
+            r.setParent(n);
+        }
+        return n;
+    }
+
     @Override
-    public void saveTree(String filename) {
-        // TODO Auto-generated method stub
-        
+    public void saveTree(String filename){
+        ArrayList<String> list = new ArrayList<>();
+        save_helper(root, list);
+        try{
+        Files.write(Path.of(filename), list);
+        }catch(Exception e){
+            System.out.println("Error saving to file! more info: \n" + e.getLocalizedMessage());
+        }
+    }
+
+    private static void save_helper(BinaryTreeNode<String> n,List<String> buffer){
+        if(n!=null){
+            buffer.add( (n instanceof Guess ?  "G:" : "Q:") + n.getData());
+            save_helper(n.getLeft(), buffer);
+            save_helper(n.getRight(), buffer);
+        }
     }
 
     @Override
     public BinaryTreeNode<String> getRoot() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.root;
+    }
+
+
+    private static boolean yes_no(String prompt){
+        System.in.mark(3);
+        System.out.print(prompt + " (y/n): ");
+        boolean input = false;
+        
+        String x = sc.nextLine();
+        input = x.toLowerCase().equals("y");
+        return input;
+    }
+
+    private String ask(String prompt){
+        String input = "";
+        System.out.print(prompt + ": ");
+        input = sc.nextLine();
+        return input;
     }
 
     @Override
     public void play() {
-        Scanner scan = new Scanner(System.in);
-        String input = null;
-        String play = null;
         BinaryTreeNode<String> n = getRoot();
-
-        System.out.print("Shall we play a game? (y/n): ");
-        play = scan.next();
-        while(play != "y"){
-
+        boolean play = yes_no("Shall we play a game?");
+        while(play){
             if(n instanceof Question){
-                System.out.print(n.getData() + " (y/n): ");
-                input = scan.next();
-                if(input == "y"){
+                if(yes_no(n.getData())){
                     n = n.getRight();
-                    break;
-                }
-                else if(input == "n"){
+                }else{
                     n = n.getLeft();
-                    break;
                 }
-
-            }
-            else{
-                System.out.print("Are you thinking of a " + n.getData() + "? (y/n): ");
-                input = scan.next();
-                if(input == "y"){
+            }else{
+                if(yes_no("Are you thinking of a " + n.getData() + "?")){
                     System.out.println("I win!");
-                    System.out.print("Play again? (y/n): ");
-                    play = scan.next();
+                }else{
+                    Guess guess = new Guess(ask("What are you thinking of?"));
+                    Question question = new Question(ask("What question seperates a " + n.getData() + " from a " + guess.getData() + "?"));
+                    if(yes_no("Is " + guess.getData() + " correct when the answer to " + question.getData() + " is yes?")){
+                        if(n.getParent().getRight().equals(n)){
+                            n.getParent().setRight(question);
+                        }else{
+                            n.getParent().setLeft(question);
+                        }
+                        question.setRight(guess);
+                        question.setLeft(n);
+                        question.setParent(n.getParent());
+                    } 
                 }
-                else if(input == "n"){
-                    System.out.print("What are you thinking of?: ");
-                    input = scan.next();
-                    Guess<String> guess = Guess(input);
-                    System.out.print("\nWhat question seperates a " + n.getData() + " from a " + input + "?");
-                    input = scan.nextLine();
-                    Question<String> question = Question(input);
-                    System.out.print("\nIs " + guess.getData() + " correct when the answer to " + question.getData() + " is yes? (y/n)?: ");
-                    input = scan.next();
-                    if(input != "y"){
-                        n.setLeft(guess);
-                        guess.setParent(n);
-                        n.setRight(question);
-                    }
-                    System.out.print("\nPlay again? (y/n): ");
-                    play = scan.next();   
-                }
+                play = yes_no("Play Again?");
+                n = getRoot();
             }
-            
+
         }
-        scan.close();
-        
+        this.saveTree("naenae.data");
     }
 
     public static void main(String[] args) {
-    if(args.length != 1){throw new IllegalArgumentException("Exactly one command line argument needed!");}
-    if(!args[0].contains(".data")){throw new IllegalArgumentException("filename must be of type 'data'");}
+    if(args.length != 1) throw new IllegalArgumentException("Exactly one command line argument needed!");
+    if(!args[0].contains(".data"))throw new IllegalArgumentException("filename must be of type 'data'");
+    GuessingGame game = new GuessingGame();
+    game.loadTree(args[0]);
+    game.play();
     }
     
 }
